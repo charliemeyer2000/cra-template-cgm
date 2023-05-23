@@ -1,4 +1,30 @@
+# name: Publish Package to npmjs
+# on:
+#   push:
+#     branches:
+#       - master
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       # Setup .npmrc file to publish to npm
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: "16.x"
+#           registry-url: "https://registry.npmjs.org"
+#       - run: npm ci
+#       - name: Configure Git identity
+#         run: |
+#             git config user.name "Charlie Meyer"
+#             git config user.email "charlie@charliemeyer.xyz"
+#       - run: npm version patch -m "Bump version to %s"
+#       - run: npm publish
+#         env:
+#           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
 name: Publish Package to npmjs and GitHub Packages
+
 on:
   push:
     branches:
@@ -43,3 +69,15 @@ jobs:
         run: npm publish --registry=https://npm.pkg.github.com/
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+

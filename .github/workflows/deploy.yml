@@ -53,14 +53,15 @@ jobs:
       - name: Get current version
         run: echo "::set-output name=current_version::$(node -p "require('./package.json').version")"
 
-      - name: Update version
-        id: update_version
+      - name: Increment version
+        id: increment_version
         run: |
-          npm version patch -m "Bump version to %s"
+          # Manually increment the version number
+          node -p "const semver = require('semver'); const version = require('./package.json').version; console.log(semver.inc(version, 'patch'));"
           echo "::set-output name=updated_version::$(node -p "require('./package.json').version")"
 
       - name: Publish package to npm
-        run: npm publish
+        run: npm publish --tag ${{ steps.increment_version.outputs.updated_version }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -81,7 +82,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.update_version.outputs.updated_version }}
-          release_name: Release ${{ steps.update_version.outputs.updated_version }}
+          tag_name: ${{ steps.increment_version.outputs.updated_version }}
+          release_name: Release ${{ steps.increment_version.outputs.updated_version }}
           draft: false
           prerelease: false

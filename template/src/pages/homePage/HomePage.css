@@ -1,0 +1,101 @@
+.homePage {
+    width: 100vw;
+    height: 100vh;
+    /* overflow: scroll; */
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.homePage-contentWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.homePage-image {
+    width: 256px;
+    height: 256px;
+}
+
+.homePage-textWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.homePage-title {
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.homePage-text {
+    color: white;
+    font-size: 1rem;
+    text-align: center;
+}
+.homePage-footer {
+    width: 80%;
+    height: 3rem;
+    /* border-top: 1px solid white; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 1rem;
+}
+
+.homePage-footerText {
+    color: white;
+    font-size: 1rem;
+}
+
+.homePage-footerLinks {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+        color: white;
+    font-size: 1rem;
+    flex-wrap: wrap;
+}
+
+
+.homePage-footerLink {
+    cursor: pointer;
+}
+
+.homePage-footerLink:hover {
+    text-decoration: underline;
+}
+
+@media only screen and (width <1110px) {
+    .homePage-footer {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (width < 610px) {
+    .homePage-footer {
+        margin-bottom: 2rem;
+    }
+}
+
+@media only screen and (width < 450px) {
+    @media only screen and (width < 610px) {
+    .homePage-footer {
+        display: none;
+    }
+}
+}

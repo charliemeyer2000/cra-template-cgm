@@ -1,0 +1,56 @@
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+input, button, textarea, select {
+    font: inherit;
+}
+input:focus {
+    outline: none;
+}
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+#root, #__next {
+    isolation: isolate;
+}
+
+/* Custom CSS */
+
+:root{
+    --some-color: some-color; /* add your colors here */
+
+    --font-family: some-font; /* change to your font */
+    --font-weight: some-font-weight; /* change to your font weight */
+    --font-style: some-font-style; /* change to your font style */
+}
+
+*{
+    /* applies your font, font-weight and font-style to all elements */
+    font-family: var(--font-family);
+    font-weight: var(--font-weight);
+    font-style: var(--font-style);
+}
+
+
+body{
+    overflow: hidden;
+}

@@ -60,11 +60,13 @@ jobs:
           node -p "const semver = require('semver'); const version = require('./package.json').version; console.log(semver.inc(version, 'patch'));"
           echo "::set-output name=updated_version::$(node -p "require('./package.json').version")"
 
+      - name: Set package version
+        run: npm version ${VERSION} --allow-same-version
+
       - name: Publish package to npm
-        run: npm publish --tag v${{ steps.increment_version.outputs.updated_version }}
+        run: npm publish
         env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Set up Node.js for GitHub Packages
         uses: actions/setup-node@v3
@@ -87,3 +89,4 @@ jobs:
           release_name: Release ${{ steps.increment_version.outputs.updated_version }}
           draft: false
           prerelease: false
+

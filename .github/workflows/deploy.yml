@@ -56,7 +56,7 @@ jobs:
       - name: Update version
         id: update_version
         run: |
-          npm version patch --force --allow-same-version
+          npm version patch -m "Bump version to %s"
           echo "::set-output name=updated_version::$(node -p "require('./package.json').version")"
 
       - name: Publish package to npm

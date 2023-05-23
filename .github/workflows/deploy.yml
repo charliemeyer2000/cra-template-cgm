@@ -56,7 +56,6 @@ jobs:
       - name: Increment version
         id: increment_version
         run: |
-          # Manually increment the version number
           node -p "const semver = require('semver'); const version = require('./package.json').version; console.log(semver.inc(version, 'patch'));"
           echo "::set-output name=updated_version::$(node -p "require('./package.json').version")"
 

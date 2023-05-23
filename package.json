@@ -1,6 +1,6 @@
 {
   "name": "cra-template-cgm",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "create-react-app template that includes router, redux, firebase, mui, and basic docker & nginx setup to easily build and deploy. Furthermore, it has better file structure.",
   "main": "index.js",
   "scripts": {

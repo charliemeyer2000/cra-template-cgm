@@ -1,0 +1,20 @@
+name: Publish to GitHub Packages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Authenticate to GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
+
+      - name: Publish to GitHub Packages
+        run: npm publish --access public

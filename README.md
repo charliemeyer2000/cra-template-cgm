@@ -1,8 +1,6 @@
 # CGM CRA Template
 
-CHANGE
-
-This is the official React template for CGM.
+This is the official React template for CGM - Charlie Meyer's React Template.
 
 ## Overview
 

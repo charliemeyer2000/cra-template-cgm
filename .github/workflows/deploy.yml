@@ -56,11 +56,8 @@ jobs:
       - name: Increment version
         id: increment_version
         run: |
-          npm version patch -m "Bump version to %s"
+          npm version patch
           echo "::set-output name=updated_version::$(node -p "require('./package.json').version")"
-
-      - name: Set package version
-        run: npm version ${VERSION} --allow-same-version
 
       - name: Publish package to npm
         run: npm publish
@@ -88,5 +85,4 @@ jobs:
           release_name: Release ${{ steps.increment_version.outputs.updated_version }}
           draft: false
           prerelease: false
-
 

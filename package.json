@@ -1,5 +1,5 @@
 {
-  "name": "cra-template-cgm",
+  "name": "@charliemeyer2000/cra-template-cgm",
   "description": "create-react-app template that includes router, redux, firebase, mui, and basic docker & nginx setup to easily build and deploy. Furthermore, it has better file structure.",
   "main": "index.js",
   "scripts": {

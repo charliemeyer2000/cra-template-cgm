@@ -4,7 +4,7 @@ This is the official React template for CGM - Charlie Meyer's React Template.
 
 ## Overview
 
-This is a template for creating a new CRA project created by [Charlie Meyer](https://charliemeyer.xyz). It is based upon the Create React App (CRA) [template](https://create-react-app.dev/docs/custom-templates/).
+This is a template for creating a new CRA project created by [Charlie Meyer](https://charliemeyer.xyz). It is based upon the Create React App (CRA) [template](https://create-react-app.dev/docs/custom-templates/) with customization.
 
 This includes the following:
 

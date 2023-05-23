@@ -20,7 +20,7 @@ This includes the following:
 To create a new project using this template, run the following command:
 
 ```bash
-npx create-react-app my-app --template cra-template-cgm
+npx create-react-app my-app --template cgm
 ```
 
 ### Development

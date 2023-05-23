@@ -187,6 +187,19 @@ This file is commented out by default if the user does not want to use firebase,
 import { db, auth} from '../path/to/firebase.js';
 ```
 
+While you can simply paste in your `firebaseConfig` object directly into your `firebase.js` file, you may want to add the values as environment variables. Simply create a `.env` file, add the env variables, and your config could look like this:
+
+```javascript
+ const firebaseConfig = {
+   apiKey: process.env.REACT_APP_apiKey,
+   authDomain: process.env.REACT_APP_authDomain,
+   projectId: process.env.REACT_APP_projectId,
+   storageBucket: process.env.REACT_APP_storageBucket,
+   messagingSenderId: process.env.REACT_APP_messagingSenderId,
+   appId: process.env.REACT_APP_appId
+ };
+ ```
+
 ##### RouteLocations.js
 
 This is a simple javascript object that holds all of the paths for the routes. This should be updated as you add, change, and remove routes in the App.js file. By using this RouteLocations.js file instead of hardcoding the paths, simply editing routes once in RouteLocations.js will update them everywhere in the app. To use it, import it into any file you need it in using the following:
@@ -221,6 +234,8 @@ export default store;
 ```
 
 It is highly recommended to use Redux DevTools with this store, simply download the extension from the Google Chrome Store and it will automatically connect to the store. You may then view the state of the store and dispatch actions to the store from the extension.
+
+When you first create this React app using `npx create-react-app my-app --template cgm`, you will get an error saying "Store does not have a valid reducer." This is because there is no "user" reducer. Do not worry - if you add a reducer for "user" in the store.js file, the error will go away. If you do not end up using Redux, just delete the store, delete the import in index.js, and delete the Provider in index.js.
 
 #### assets
 

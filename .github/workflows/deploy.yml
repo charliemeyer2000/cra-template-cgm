@@ -61,7 +61,6 @@
 #           release_name: Release ${{ steps.increment_version.outputs.updated_version }}
 #           draft: false
 #           prerelease: false
-
 name: Publish Package to npmjs and GitHub Packages
 on:
   push:
@@ -72,6 +71,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: npm ci
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -90,10 +107,14 @@ jobs:
           git config user.name "Charlie Meyer"
           git config user.email "charlie@charliemeyer.xyz"
 
+      - name: Get current version
+        run: echo "::set-output name=current_version::$(node -p "require('./package.json').version")"
+
       - name: Increment version
         id: increment_version
         run: |
-          npm version patch -m "Bump version to %s"
+          npm version patch
+          echo "::set-output name=updated_version::$(node -p "require('./package.json').version")"
 
       - name: Publish package to npm
         run: npm publish
@@ -121,4 +142,6 @@ jobs:
           release_name: Release ${{ steps.increment_version.outputs.updated_version }}
           draft: false
           prerelease: false
+
+
 

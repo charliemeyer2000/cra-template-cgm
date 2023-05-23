@@ -14,6 +14,10 @@ jobs:
           node-version: "16.x"
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
+      - name: Configure Git identity
+        run: |
+            git config user.name "Charlie Meyer"
+            git config user.email "charlie@charliemeyer.xyz"
       - run: npm version patch -m "Bump version to %s"
       - run: npm publish
         env:

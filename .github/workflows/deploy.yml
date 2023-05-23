@@ -50,17 +50,8 @@ jobs:
           git config user.name "Charlie Meyer"
           git config user.email "charlie@charliemeyer.xyz"
 
-      - name: Get current version
-        run: echo "::set-output name=current_version::$(node -p "require('./package.json').version")"
-
-      - name: Increment version
-        id: increment_version
-        run: |
-          npm version patch
-          echo "::set-output name=updated_version::$(node -p "require('./package.json').version")"
-
       - name: Publish package to npm
-        run: npm publish
+        run: npm publish -m "Bump version to %s"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -81,8 +72,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.increment_version.outputs.updated_version }}
-          release_name: Release ${{ steps.increment_version.outputs.updated_version }}
+          tag_name: Release ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
 

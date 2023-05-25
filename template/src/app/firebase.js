@@ -9,7 +9,8 @@ import { GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 // Paste in your firebaseConfig object here from firebase console (if you are using firebase)
-// Note - it is best practice to put this in an env file, but not necessary.An example of this looks like:
+// Note - it is best practice to put this in an env (remember to add to the gitignore) file, but not necessary.
+// An example of this looks like:
 
 /* 
 

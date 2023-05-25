@@ -6,7 +6,7 @@ This is the official React template for CGM.
 
 This is a template for creating a new CRA project created by [Charlie Meyer](https://charliemeyer.xyz). It is based upon the Create React App (CRA) [template](https://create-react-app.dev/docs/custom-templates/).
 
-This includes the following:
+This includes the following (but not limited to):
 
 - [JavaScript Standard Style](https://standardjs.com/)
 - [React Router](https://reactrouter.com/)
@@ -14,13 +14,19 @@ This includes the following:
 - [Redux Toolkit](https://redux-toolkit.js.org/)
 - [Firebase](https://firebase.google.com/)
 - [Material UI](https://material-ui.com/)
+- Better file structure for both small-scale and large scale projects
+- Dockerfile
+- nginx.conf
+- GitHub Actions workflow file for building and deploying to Google Cloud Run (or any other deployment you would like)
+- Firebase & Redux boilerplate code
+
 
 ## Getting Started
 
 To create a new project using this template, run the following command:
 
 ```bash
-npx create-react-app my-app --template cra-template-cgm
+npx create-react-app my-app --template cgm
 ```
 
 ### Development
@@ -32,18 +38,6 @@ npm start
 ```
 
 This runs the app in development mode in Port 8080. Open [http://localhost:8080](http://localhost:8080) to view it in the browser. Port 8080 is chosen and it is also used in the Dockerfile and nginx.conf, so if you change it here, you will need to change it in those files as well.
-
-### Production
-
-To build the app for production, run the following command:
-
-```bash
-npm run build
-```
-
-This builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes.
-
-However, the dockerfile, nginx.conf, and deploy.yml file have been included to build and upload the image to GCR, with a template example of deploying to Google Cloud Run, so you can use that instead of `npm run build`.
 
 ### Docker
 
@@ -58,10 +52,12 @@ This builds the docker image with the name specified. The image is based on the 
 To run the docker image, run the following command:
 
 ```bash
-docker run -p 8080:80 <image-name>
+docker run -p 8080:8080 <image-name>
 ```
 
-This runs the docker image on port 8080. You can then open [http://localhost:8080](http://localhost:8080) to view it in the browser. However, you can automate this using the `deploy.yml` file within the `.github/workflows` folder written for your CI/CD pipeline.
+This runs the docker image on port 8080. You can then open [http://localhost:8080](http://localhost:8080) to view it in the browser.
+
+While you can do this, the template `deploy.yml` file in the `github/workflows` folder contains boilerplate to build your image, upload it to GCR, and then deploy it to Google Cloud Run (or any other deployment you would like). If you want to use this, you will need to create a service account key for your Google Cloud Project and add it as a secret to your GitHub repository. More on this below.
 
 ## Overview of Files
 
@@ -128,7 +124,7 @@ Make sure to add repository secretes to your GitHub repository for the following
 * PROJECT_ID - The ID of your Google Cloud Project
 * GCP_SA_KEY - The service account key for your Google Cloud Project
 
-For further security, you may include REGION, SERVICE_NAME, IMAGE_NAME, and other variables as secrets as well. The only one that is absolutely required for safety is GCP_SA_KEY. Ensure that when creating the Service Account key through the Google Cloud Console, you give it the proper (but minimal) permissions to upload, read, and deploy your images.
+For further security, you may include REGION, SERVICE_NAME, IMAGE_NAME, and other variables as secrets as well. The only one that is absolutely required for safety is GCP_SA_KEY. Ensure that when creating the Service Account key through the Google Cloud Console, you give it the proper (but minimal) permissions to upload, read, and deploy your images. The role is called "Cloud Run Admin" and the permissions are "run.admin" and "storage.admin".
 
 ### public
 

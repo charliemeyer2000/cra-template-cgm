@@ -2,6 +2,17 @@
 
 This is the official React template for CGM - Charlie Meyer's React Template.
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+  - [Development](#development)
+  - [Production](#production)
+  - [Docker](#docker)
+- [Overview of Files](#overview-of-files)
+  - A general file structure is provided below.
+- [Contributing](#contributing)
+
 ## Overview
 
 This is a template for creating a new CRA project created by [Charlie Meyer](https://charliemeyer.xyz). It is based upon the Create React App (CRA) [template](https://create-react-app.dev/docs/custom-templates/).
@@ -31,7 +42,7 @@ To start the development server, run the following command:
 npm start
 ```
 
-This runs the app in development mode in Port 8080. Open [http://localhost:8080](http://localhost:8080) to view it in the browser. Port 8080 is chosen and it is also used in the Dockerfile and nginx.conf, so if you change it here, you will need to change it in those files as well.
+This runs the app in development mode in Port 8080 (see the command PORT 8080 in `start` within `package.json`). Open [http://localhost:8080](http://localhost:8080) to view it in the browser. Port 8080 is chosen and it is also used in the Dockerfile and nginx.conf, so if you change it here, you will need to change it in those files as well (I think).
 
 ### Production
 
@@ -61,7 +72,7 @@ To run the docker image, run the following command:
 docker run -p 8080:80 <image-name>
 ```
 
-This runs the docker image on port 8080. You can then open [http://localhost:8080](http://localhost:8080) to view it in the browser. However, you can automate this using the `deploy.yml` file within the `.github/workflows` folder written for your CI/CD pipeline.
+This runs the docker image on port 8080. You can then open [http://localhost:8080](http://localhost:8080) to view it in the browser. However, you can automate this using the `deploy.yml` file within the `.github/workflows` folder written for your CI/CD pipeline. See the section [.github/workflows](#githubworkflows) for more information.
 
 ## Overview of Files
 
@@ -121,7 +132,7 @@ There are some folders that have markdown files in them explaining their purpose
 
 ### .github/workflows
 
-The workflow file included in the `.github/workflows` folder is used to build and upload the docker image to GCR. There is then an example of how to deploy it to Google Cloud Run, but you may also add any other deployment you would like (Google Kubernetes Engine, Google App Engine, etc).
+The workflow file included in the `.github/workflows` folder is used to build and upload the docker image to GCR. There is then an example of how to deploy it to Google Cloud Run (it super simple, fastest way to deploy your app), but you may also add any other deployment you would like (Google Kubernetes Engine, Google App Engine, etc).
 
 Make sure to add repository secretes to your GitHub repository for the following:
 
@@ -175,7 +186,7 @@ SomePage.css
 }
 ```
 
-You can also add the styles to everything in the app by adding them to the `body` selector in the App.css file or by adding them to the `*` selector in the App.css file.
+You can also add the styles to everything in the app by adding them to the `body` selector in the App.css file or by adding them to the `*` selector in the App.css file. Using these variables and using them consistently throughout the app will make it much easier to change the look and feel of the app later on, if you want to change color schemes, add a dark/light mode toggle, change fonts, etc.
 
 ##### App.js
 
@@ -189,17 +200,23 @@ This file is commented out by default if the user does not want to use firebase,
 import { db, auth } from "../path/to/firebase.js";
 ```
 
+Firebase is an easy database to use for quickly building, but popular tech-stacks such as the PERN stack (PostgreSQL, Express, React, Node) are also great options. If you want to add similar ease-of-use with authentication and database access using the PERN stack, you can use authentication libraries such as [Passport.js](http://www.passportjs.org/) and database libraries such as [Sequelize](https://sequelize.org/) to achieve similar results.
+
 ##### RouteLocations.js
 
 This is a simple javascript object that holds all of the paths for the routes. This should be updated as you add, change, and remove routes in the App.js file. By using this RouteLocations.js file instead of hardcoding the paths, simply editing routes once in RouteLocations.js will update them everywhere in the app. To use it, import it into any file you need it in using the following:
 
 ```javascript
 import { RouteLocations } from "../path/to/RouteLocations.js";
+import { useNavigate } from "react-router-dom";
 ```
 
 Then, in your JSX, you can use RouteLocations to navigate the user to the correct page. For example:
 
 ```javascript
+
+const navigate = useNavigate();
+...
 <Link to={RouteLocations.home}>Home</Link>
 <div onClick={() => navigate(RouteLocations.home)}>Home</div>
 ```
@@ -221,7 +238,7 @@ const store = configureStore({
 export default store;
 ```
 
-It is highly recommended to use Redux DevTools with this store, simply download the extension from the Google Chrome Store and it will automatically connect to the store. You may then view the state of the store and dispatch actions to the store from the extension.
+It is highly recommended to use Redux DevTools with this store, simply download the extension from the Google Chrome Web Store and it will automatically connect to the store. You may then view the state of the store and dispatch actions to the store from the extension.
 
 #### assets
 
@@ -253,6 +270,12 @@ Here is an example of a slice that stores the user's name and email address:
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // add functions, asyncThunks, and other logic above here.
+export const createUserInDatabase = createAsyncThunk(
+  "user/createUserInDatabase",
+  async (user) => {
+    // add logic here to create user in database.
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -269,6 +292,11 @@ const userSlice = createSlice({
     },
   },
   // you may add builder cases for asyncThunks here.
+  extraReducers: (builder) => {
+    builder.addCase(createUserInDatabase.fulfilled, (state, action) => {
+      // add logic here to update state after asyncThunk is fulfilled.
+    });
+  },
 });
 
 export const { setName, setEmail } = userSlice.actions;
